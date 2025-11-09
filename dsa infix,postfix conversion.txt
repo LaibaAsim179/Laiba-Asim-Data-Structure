@@ -1,0 +1,45 @@
+CONVERTIONS:
+
+TASK 1:
+Infix to prefix:
+K + L - M * N + (O^P) * W/U/V * T + Q
+	 K + L → + K L
+	  M * N → * M N
+	  (K + L) - (M * N) → - (+ K L) (* M N) → - + K L * M N
+	  O ^ P → ^ O P
+	 (O^P) * W → * (^ O P) W → * ^ O P W
+	  ((O^P) * W) / U → / (* ^ O P W) U → / * ^ O P W U
+	 (((O^P)*W)/U) / V → / (/ * ^ O P W U) V → / / * ^ O P W U V
+	  ((((O^P)*W)/U)/V) * T → * (/ / * ^ O P W U V) T → * / / * ^ O P W U V T
+Task 2:
+Infix to Postfix
+K + L - M*N + (O^P) * W/U/V * T + Q
+
+
+Step	Symbol	Action / Stack	Output (Postfix)
+1	K	Operand → output	K
+2	+	Push '+'	Stack: +
+3	L	Operand → output	K L
+4	-	Pop + (same precedence, left-associative) → output; push -	Output: K L +, Stack: -
+5	M	Operand → output	K L + M
+6	*	Push '*' (higher precedence than '-')	Stack: - *
+7	N	Operand → output	K L + M N
+8	(	Push '('	Stack: - * (
+9	O	Operand → output	K L + M N O
+10	^	Push '^'	Stack: - * ( ^
+11	P	Operand → output	K L + M N O P
+12	)	Pop until '(' → Pop ^	Output: K L + M N O P ^, Stack: - *
+13	*	'' and '' same precedence, left-associative → pop previous '*'	Output: K L + M N * O P ^ *, Stack: - *
+14	W	Operand → output	K L + M N * O P ^ * W
+15	/	Pop '*' (same precedence) → push '/'	Output: K L + M N * O P ^ * W *, Stack: - /
+16	U	Operand → output	K L + M N * O P ^ * W * U
+17	/	Pop '/' (same precedence) → push '/'	Output: K L + M N * O P ^ * W * U /, Stack: - /
+18	V	Operand → output	K L + M N * O P ^ * W * U / V
+19	*	'*' and '/' same precedence → pop '/' first	Output: K L + M N * O P ^ * W * U / V /, Stack: - *
+20	T	Operand → output	K L + M N * O P ^ * W * U / V / T
+21	+	'+' lower precedence → pop '*' and '-' → push '+'	Output: K L + M N * O P ^ * W * U / V / T * - +, Stack: +
+22	Q	Operand → output	K L + M N * O P ^ * W * U / V / T * - + Q
+23	End	Pop remaining '+'	
+
+
+
